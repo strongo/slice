@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestRemoveStringInPlace(t *testing.T) {
+func TestRemoveInPlace(t *testing.T) {
 	type args struct {
 		v     string
 		slice []string
@@ -53,7 +53,7 @@ func TestRemoveStringInPlace(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equalf(t, tt.want, RemoveStringInPlace(tt.args.v, tt.args.slice), "RemoveStringInPlace(%v, %v)", tt.args.v, tt.args.slice)
+			assert.Equalf(t, tt.want, RemoveInPlace(tt.args.v, tt.args.slice), "RemoveInPlace(%v, %v)", tt.args.v, tt.args.slice)
 		})
 	}
 }
