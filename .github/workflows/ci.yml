@@ -3,8 +3,8 @@ on:
     branches:
       - main
   pull_request:
-#    branches:
-#      - main
+    branches:
+      - main
 name: Vet, Test, Build
 jobs:
 
