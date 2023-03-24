@@ -8,7 +8,7 @@ on:
 name: Vet, Test, Build
 jobs:
 
-  lint_and_test:
+  vet_build_test_lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,11 +24,11 @@ jobs:
       - name: Go vet
         run: go vet ./...
 
-      - name: Go test
-        run: go test ./...
-
       - name: Go build
         run: go build ./...
+
+      - name: Go test
+        run: go test ./...
 
       - name: Go lint
         uses: golangci/golangci-lint-action@v3
