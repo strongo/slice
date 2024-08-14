@@ -1,5 +1,7 @@
 package slice
 
+import "slices"
+
 // SameUniqueValues compares two slices of comparable types.
 func SameUniqueValues[T comparable](a, b []T) bool {
 	if len(a) != len(b) {
@@ -9,7 +11,7 @@ func SameUniqueValues[T comparable](a, b []T) bool {
 		a, b = b, a
 	}
 	for _, v := range a {
-		if !Contains(b, v) {
+		if !slices.Contains(b, v) {
 			return false
 		}
 	}
