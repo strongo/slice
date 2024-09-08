@@ -53,7 +53,7 @@ func TestRemoveInPlace(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equalf(t, tt.want, RemoveInPlace(tt.args.v, tt.args.slice), "RemoveInPlace(%v, %v)", tt.args.v, tt.args.slice)
+			assert.Equalf(t, tt.want, RemoveInPlaceByValue(tt.args.slice, tt.args.v), "RemoveInPlace(%v, %v)", tt.args.v, tt.args.slice)
 		})
 	}
 }
