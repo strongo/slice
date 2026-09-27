@@ -71,3 +71,41 @@ func TestCommaSeparatedUniqueValuesList_Contains(t *testing.T) {
 		t.Error("unexpected false")
 	}
 }
+
+func TestCommaSeparatedUniqueValuesList_Add_cases(t *testing.T) {
+	// Add existing duplicate
+	list := CommaSeparatedUniqueValuesList("v1,v2")
+	if updated := list.Add("v1", 0); updated != "v1,v2" {
+		t.Errorf("expected unchanged v1,v2, got %s", updated)
+	}
+
+	// Add with limit exceeded
+	list = CommaSeparatedUniqueValuesList("v1,v2,v3")
+	if updated := list.Add("v4", 2); updated != "v1,v2,v4" {
+		t.Errorf("expected v1,v2,v4, got %s", updated)
+	}
+
+	// Add panic on comma
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("expected panic when adding value with comma")
+		}
+	}()
+	list.Add("a,b", 0)
+}
+
+func TestCommaSeparatedUniqueValuesList_Strings(t *testing.T) {
+	if s := CommaSeparatedUniqueValuesList("").Strings(); len(s) != 0 {
+		t.Errorf("expected empty slice, got %v", s)
+	}
+	if s := CommaSeparatedUniqueValuesList("v1,v2").Strings(); len(s) != 2 || s[0] != "v1" || s[1] != "v2" {
+		t.Errorf("expected [v1 v2], got %v", s)
+	}
+}
+
+func TestCommaSeparatedUniqueValuesList_String(t *testing.T) {
+	if s := CommaSeparatedUniqueValuesList("v1,v2").String(); s != "v1,v2" {
+		t.Errorf("expected v1,v2, got %s", s)
+	}
+}
+

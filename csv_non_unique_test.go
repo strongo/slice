@@ -71,3 +71,50 @@ func TestCommaSeparatedValuesList_Contains(t *testing.T) {
 		t.Error("unexpected false")
 	}
 }
+
+func TestCommaSeparatedValuesList_Count(t *testing.T) {
+	if count := CommaSeparatedValuesList("").Count(); count != 0 {
+		t.Errorf("expected 0, got %d", count)
+	}
+	if count := CommaSeparatedValuesList("v1,v2,v3").Count(); count != 3 {
+		t.Errorf("expected 3, got %d", count)
+	}
+}
+
+func TestCommaSeparatedValuesList_Set(t *testing.T) {
+	list := CommaSeparatedValuesList("v1,v2,v3")
+	if updated := list.Set(1, "updated"); updated != "v1,updated,v3" {
+		t.Errorf("expected v1,updated,v3, got %s", updated)
+	}
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("expected panic on out of range Set")
+		}
+	}()
+	list.Set(5, "out_of_range")
+}
+
+func TestCommaSeparatedValuesList_Strings(t *testing.T) {
+	if s := CommaSeparatedValuesList("").Strings(); len(s) != 0 {
+		t.Errorf("expected empty slice, got %v", s)
+	}
+	if s := CommaSeparatedValuesList("v1,v2").Strings(); len(s) != 2 || s[0] != "v1" || s[1] != "v2" {
+		t.Errorf("expected [v1 v2], got %v", s)
+	}
+}
+
+func TestCommaSeparatedValuesList_String(t *testing.T) {
+	if s := CommaSeparatedValuesList("v1,v2").String(); s != "v1,v2" {
+		t.Errorf("expected v1,v2, got %s", s)
+	}
+}
+
+func TestCommaSeparatedValuesList_Add_panic(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("expected panic when adding value with comma")
+		}
+	}()
+	CommaSeparatedValuesList("v1").Add("v2,v3")
+}
+
